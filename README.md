@@ -7,5 +7,5 @@ Only two NMEA sentences are currently created: VHW and MTW.
 
 VHW sentences contain both Speed Through Water, coming from one instrument, and Compass Heading, coming from the other.
 
-Water temperature MTW sentences are also created.
+Water temperature MTW sentences are also created, but I've never understood why that would be interesting.
 
