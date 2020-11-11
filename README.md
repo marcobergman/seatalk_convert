@@ -22,7 +22,7 @@ Even better would be to process the signal without drawing too much current. The
 
 <img src="img1.jpg" width=400/>
 
-The key to this problem was to have a voltage divider before the basis of the transistor. R2 and R3 divide the 1.4 volts left after the first diode to not more than 0.4 volts, which makes the transistor really switch 'off' and leaving no residual 'light' in the opto-coupler. Only then is the Raspberry's software-defined pull-up resistor able to pull the GPIO port up to a clear level. The values for R1-R3 appeared to be critical; given values for R2 and R3, R1 could not be too high otherwise the transistor would not go sufficiently open:
+The key to this problem was to have a voltage divider before the basis of the transistor. R2 and R3 divide the 1.4 volts left after the first diode to not more than 0.4 volts, which makes the transistor really switch 'off' and leaving no residual 'light' in the opto-coupler. Only then is the Raspberry's software-defined pull-up resistor able to pull the GPIO port up to a clear level (1). The values for R1-R3 appeared to be critical; given values for R2 and R3, R1 could not be too high otherwise the transistor would not go sufficiently open:
 
 <img src="img2.jpg" width=600/>
 
@@ -34,3 +34,4 @@ Having figured out this all, the relevant part of Raymarine electrical schema (S
 
 <img src="img5.jpg" width=400/>
 
+(1) Note that this applies only for GPIO2 and GPIO3, that have internally 1k8 pull-up resistors. The other GPIO inputs have 50k pull-up resistors, which are not sufficient at all to pull up the line quickly enough at 4800 Baud.
