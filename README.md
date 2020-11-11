@@ -18,7 +18,7 @@ Putting a optocoupler between the seatalk signal and ground is therefore not a g
 
 <img src="img6.jpg" width=400/> <img src="img7.jpg" width="400" align="right"/>
 
-Even better it would be to process the signal without drawing too much current. The first option I tried was this, and it did not work. The reason why it did not work is that the diode also has a voltage drop of 0.7 volts, and the basis of the transistor would never be pulled below 1.4 volts, thereby making it always remain switched 'on':
+Even better would be to process the signal without drawing too much current. The first option I tried was this, and it did not work. The reason why it did not work is that the diode also has a voltage drop of 0.7 volts, and the basis of the transistor would never be pulled below 1.4 volts, thereby making it always remain switched 'on':
 
 <img src="img1.jpg" width=400/>
 
