@@ -18,10 +18,17 @@ Putting a optocoupler between the seatalk signal and ground is therefore not a g
 
 Even better it would be to process the signal without drawing too much current. The first option I tried was this, and it did not work. The reason why it did not work is that the diode also has a voltage drop of 0.7 volts, and the basis of the transistor would never be pulled below 1.4 volts, thereby making it always remain switched 'on':
 
-![example](img1.jpg  | width=200)
+<img src="img1.jpg" width=400/>
 
 The key to this problem was to have a voltage divider before the basis of the transistor. R2 and R3 divide the 1.4 volts left after the first diode to not more than 0.4 volts, which makes the transistor really switch 'off' and leaving no residual 'light' in the opto-coupler. Only then is the Raspberry's software-defined pull-up resistor able to pull the GPIO port up to a clear level. The values for R1-R3 appeared to be critical; given values for R2 and R3, R1 could not be too high otherwise the transistor would not go sufficiently open:
 
+<img src="img2.jpg" width=600/>
+
 Still I found a rise-time of 0.11ms in the signal on the GPIO port. A 560ohm pull-up resistor to 3.3V lowered this rise-time considerably. Remember Raspberry GPIO port levels are 3V3.
 
+<img src="img3.jpg" xwidth=400/> <img src="img4.jpg" xwidth=400/>
+
 Having figured out this all, the relevant part of Raymarine electrical schema (ST2000+) became immediately clear as well. They have different values for the resistors, but they have a two-transistor amplifier.
+
+<img src="img5.jpg" width=400/>
+
