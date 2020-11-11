@@ -10,7 +10,7 @@ VHW sentences contain both Speed Through Water, coming from one instrument, and 
 Water temperature MTW sentences are also created because I could, not because I really use it.
 
 # Processing the Seatalk 1 signal for the Raspberry Pi
-Seatalk 1 is electrically defined as an open collector interface. Multiple senders on the same line are allowed to pull the line low when sending. There is a bit more to it than that, but for reading the signal it is important to relise 2 things:
+Seatalk 1 is electrically defined as an open collector interface. Multiple senders on the same line are allowed to pull the line low when sending. There is a bit more to it than that, but for reading the signal it is important to realize 2 things:
 - that you cannot really draw positive current from the interface; and 
 - that senders typically cannot pull the signal lower than 0.7 volts above ground. 
 
