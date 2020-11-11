@@ -16,7 +16,7 @@ Seatalk 1 is electrically defined as an open collector interface. Multiple sende
 
 Putting a optocoupler between the seatalk signal and ground is therefore not a good option, and if it works, it parasitizes on the fact that most outputs and inputs on the one-line bus have some form of pull-up resistors. You might risk serious degradation of the signal, only to manifest itself at awkward times. If you want to go this cheap way, better would it be to put the opto-coupler between the 12V and the seatalk line, thereby inverting the signal, but you can deal with that later.
 
-<img src="img6.jpg" width=400/>
+<img src="img6.jpg" width=400/> <img src="img7.jpg" width="400" align="right"/>
 
 Even better it would be to process the signal without drawing too much current. The first option I tried was this, and it did not work. The reason why it did not work is that the diode also has a voltage drop of 0.7 volts, and the basis of the transistor would never be pulled below 1.4 volts, thereby making it always remain switched 'on':
 
