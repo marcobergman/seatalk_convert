@@ -88,7 +88,7 @@ def translate_st_to_nmea (data):
 		if datagram == ord('\x20'):
 			byte2 = getByte(bytes[2])
 			byte3 = getByte(bytes[3])
-			stw = (byte2*256 + byte3 + 0.0)/10
+			stw = (byte3*256 + byte2 + 0.0)/10
 			return formatVHW(hdg, stw)
 		if datagram == ord('\x27'):
 			byte2 = getByte(bytes[2])
