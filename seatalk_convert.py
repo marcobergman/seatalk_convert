@@ -136,9 +136,9 @@ def translate_st_to_nmea (data):
 		elif datagram == ord('\x60'): #Coming from Raymarine ST50 Compass
 			return None
 		else:
-			print 'Unknown datagram ' + bytes[0]
+			print ('Unknown datagram ' + bytes[0])
 	except Exception as e:
-		print "*** Could not parse " + str(bytes) + ": " + str(e)
+		print ("*** Could not parse " + str(bytes) + ": " + str(e))
 
 
 
@@ -151,7 +151,7 @@ if __name__ == '__main__':
 	except:
 		pass
 	
-    	st1read.bb_serial_read_open(gpio, 4800,9)	# Read from chosen GPIO with 4800 Baudrate and 9 bit
+	st1read.bb_serial_read_open(gpio, 4800,9)	# Read from chosen GPIO with 4800 Baudrate and 9 bit
 	st1read.bb_serial_invert(gpio, invert)		# Invert data
 	st1read.set_pull_up_down(gpio, pud)		# Set pull up/down
 	
@@ -191,7 +191,7 @@ if __name__ == '__main__':
 						data=string2_new + ","
 
 					x+=2
-		time.sleep(0.5)
+                time.sleep(0.01)
 				
 	except KeyboardInterrupt:
 		st1read.bb_serial_read_close(gpio)
