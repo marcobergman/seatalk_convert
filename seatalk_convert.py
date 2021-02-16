@@ -11,7 +11,7 @@
 # 2020-11-05 marcobergman changed code to export NMEA0183 sentences nstead 
 #
 
-import pigpio, time, socket, signal, sys
+import pigpio, time, socket, signal, sys, os
 
 port=4041	# Define udp port for sending
 ip= '127.0.0.1' # Define ip default localhost 127.0.0.1
@@ -19,9 +19,20 @@ gpio= 2  	# Define gpio where the SeaTalk1 (yellow wire) is sensed
 invert = 1      # Define if input signal shall be inverted 0 => not inverted, 1 => Inverted 
 pud = 2         # define if using internal RPi pull up/down 0 => No, 1= Pull down, 2=Pull up
 
+print ("Shutting down old gpiod")
+os.system("pkill pigpiod")
+print ("...waiting for it to shut down")
+time.sleep(1)
+print ("Starting new gpiod")
+os.system("pigpiod")
+print ("...waiting for new gpiod to start up")
+time.sleep(1)
+print ("Ready")
+
 stw = 555
 hdg = 555
 last_datagram = 555
+c = 1
 
 def getByte(str):
 	if len(str) == 1:
@@ -46,15 +57,25 @@ def nmeaChecksum(s): # str -> two hex digits in str
 		return '0'+hexstr
 
 
+def formatHDM(hdm):
+	if (hdm == None): 
+		return None
+	hdm = '{:3.1f}'.format(hdm)
+
+	sentence = "$RMHDM,%s,M" % (hdm)
+	
+	return sentence + "*" + nmeaChecksum(sentence) + "\r\n"
+
+
 def formatVHW(hdg, stw):
-	if (hdg == None) or (stw == None):
+	if (hdg == None) or (stw == None) or (hdg < 0.1):
 		return None
 	hdm = '{:3.1f}'.format(hdg)
-	hdt = '{:3.1f}'.format(hdg)
+	hdt=''
 	stwn = '{:3.1f}'.format(stw)
 	stwk = '{:3.1f}'.format(stw/1.852)
 
-	sentence = "$RMVHW,%s,T,%s,M,%s,N,%s,K" % (hdm, hdt, stwn, stwk)
+	sentence = "$RMVHW,%s,T,%s,M,%s,N,%s,K" % (hdt, hdm, stwn, stwk)
 	
 	return sentence + "*" + nmeaChecksum(sentence) + "\r\n"
 
@@ -73,11 +94,13 @@ def translate_st_to_nmea (data):
 	global stw
 	global hdg
 	global last_datagram
+	global c
 
 	if not data:
 		return 
+	c = c + 1
 	bytes = data.split(",")
-	#print str(bytes)
+	#print ("{} - {}".format(c, str(bytes)))
 
 	datagram = getByte(bytes[0])
 	if datagram == last_datagram:
@@ -89,12 +112,12 @@ def translate_st_to_nmea (data):
 			byte2 = getByte(bytes[2])
 			byte3 = getByte(bytes[3])
 			stw = (byte3*256 + byte2 + 0.0)/10
-			return formatVHW(hdg, stw)
+			return formatHDM(hdg)
 		if datagram == ord('\x27'):
 			byte2 = getByte(bytes[2])
 			temp = (byte2 - 100.0)/10
 			return formatMTW(temp)
-		elif datagram == ord('\x89'): # Coming from ST50
+		elif datagram == ord('\x89'): # Coming from ST50 Compass
 			u2 = getByte(bytes[1])
 			vw = getByte(bytes[2])
 			hdg = ((u2 // 16) & ord('\x03')) * 90 + (vw & ord('\x3f')) * 2 + ((u2 // 16 // 8) & ord('\x01'))
@@ -114,8 +137,8 @@ def translate_st_to_nmea (data):
 			return None
 		else:
 			print 'Unknown datagram ' + bytes[0]
-	except:
-		print "*** Could not parse " + str(bytes)
+	except Exception as e:
+		print "*** Could not parse " + str(bytes) + ": " + str(e)
 
 
 
