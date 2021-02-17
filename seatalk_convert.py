@@ -32,14 +32,15 @@ print ("Ready")
 stw = 555
 hdg = 555
 last_datagram = 555
-c = 1
 
-def getByte(str):
-	if len(str) == 1:
-		str = "0" + str;
+def getByte(hexstring):
+	if len(hexstring) == 1:
+		hexstring = "0" + hexstring;
 	try:
-		return ord(str.decode("hex"))
-	except:
+		#return ord(str.decode("hex")) #Python2
+		return ord(bytes.fromhex(hexstring)) #Python3
+	except Exception as e:
+		print (str(e))
 		return 0
 
 
@@ -71,6 +72,7 @@ def formatVHW(hdg, stw):
 	if (hdg == None) or (stw == None) or (hdg < 0.1):
 		return None
 	hdm = '{:3.1f}'.format(hdg)
+	hdm = ''
 	hdt=''
 	stwn = '{:3.1f}'.format(stw)
 	stwk = '{:3.1f}'.format(stw/1.852)
@@ -94,16 +96,15 @@ def translate_st_to_nmea (data):
 	global stw
 	global hdg
 	global last_datagram
-	global c
 
 	if not data:
 		return 
-	c = c + 1
 	bytes = data.split(",")
-	#print ("{} - {}".format(c, str(bytes)))
+	print ("{}".format(str(bytes)))
 
 	datagram = getByte(bytes[0])
 	if datagram == last_datagram:
+		print ("datagram = last datagram", bytes[0])
 		return
 	last_datagram = datagram
 
@@ -169,30 +170,26 @@ if __name__ == '__main__':
 				x=0
 				while x < out0:
 					if out_data[x+1] ==0:
-						string1=str(hex(out_data[x]))
-						if out_data[x] > 15:
-							string1=str(hex(out_data[x]))
-						elif out_data[x] ==0:
-							string1="0x00"
-						else:
-							string1="0x0"+str(hex(out_data[x]).lstrip("0x"))
-						data= data+string1[2:]+ ","
+						string1=str(hex(out_data[x]))[2:]
+						data= data+string1+ ","
 					else:
-						data=data[0:-1]
+						data=data[0:-1] # cut off trailing comma
 						nmea_sentence = translate_st_to_nmea (data)
 						if nmea_sentence:
-							#sys.stdout.write (nmea_sentence)
+							sys.stdout.write (nmea_sentence)
 							sock.sendto(nmea_sentence.encode('utf-8'), (ip, port))
+						else:
+							print ("ignored")
 
-						string2=str(hex(out_data[x]))
-						string2_new=string2[2:]
-						if len(string2_new)==1:
-							string2_new="0"+string2_new
-						data=string2_new + ","
+						string2=str(hex(out_data[x]))[2:]
+						if len(string2)==1:
+							string2="0"+string2
+						data=string2 + ","
 
 					x+=2
-                time.sleep(0.01)
+			time.sleep(0.01)
 				
 	except KeyboardInterrupt:
 		st1read.bb_serial_read_close(gpio)
 		print ("exit")
+
