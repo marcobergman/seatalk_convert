@@ -37,8 +37,7 @@ def getByte(hexstring):
 	if len(hexstring) == 1:
 		hexstring = "0" + hexstring;
 	try:
-		#return ord(str.decode("hex")) #Python2
-		return ord(bytes.fromhex(hexstring)) #Python3
+		return ord(bytes.fromhex(hexstring))
 	except Exception as e:
 		print (str(e))
 		return 0
@@ -68,14 +67,13 @@ def formatHDM(hdm):
 	return sentence + "*" + nmeaChecksum(sentence) + "\r\n"
 
 
-def formatVHW(hdg, stw):
+def formatVHW(stw):
 	if (hdg == None) or (stw == None) or (hdg < 0.1):
 		return None
-	hdm = '{:3.1f}'.format(hdg)
 	hdm = ''
 	hdt=''
 	stwn = '{:3.1f}'.format(stw)
-	stwk = '{:3.1f}'.format(stw/1.852)
+	stwk = ''
 
 	sentence = "$RMVHW,%s,T,%s,M,%s,N,%s,K" % (hdt, hdm, stwn, stwk)
 	
@@ -113,7 +111,7 @@ def translate_st_to_nmea (data):
 			byte2 = getByte(bytes[2])
 			byte3 = getByte(bytes[3])
 			stw = (byte3*256 + byte2 + 0.0)/10
-			return formatHDM(hdg)
+			return formatVHW(stw)
 		if datagram == ord('\x27'):
 			byte2 = getByte(bytes[2])
 			temp = (byte2 - 100.0)/10
@@ -122,12 +120,13 @@ def translate_st_to_nmea (data):
 			u2 = getByte(bytes[1])
 			vw = getByte(bytes[2])
 			hdg = ((u2 // 16) & ord('\x03')) * 90 + (vw & ord('\x3f')) * 2 + ((u2 // 16 // 8) & ord('\x01'))
-			return formatVHW(hdg, stw)
+			return formatHDM(hdg)
 		elif datagram == ord('\x9c'): # Coming from ST2000
 			u2 = getByte(bytes[1])
 			vw = getByte(bytes[2])
 			hdg2 = ((u2 // 16) & ord('\x03')) * 90 + (vw & ord('\x3f')) * 2 + ((u2 // 16 // 8) & ord('\x01'))
-			return formatVHW(hdg2, stw)
+			#return formatHDM(hdg2)
+			return None
 		elif datagram == ord('\x84'): #Coming from ST2000
 			return None
 		elif datagram == ord('\x23'): #Coming from Raymarine Speed
@@ -153,7 +152,7 @@ if __name__ == '__main__':
 		pass
 	
 	st1read.bb_serial_read_open(gpio, 4800,9)	# Read from chosen GPIO with 4800 Baudrate and 9 bit
-	st1read.bb_serial_invert(gpio, invert)		# Invert data
+	#st1read.bb_serial_invert(gpio, invert)		# Invert data
 	st1read.set_pull_up_down(gpio, pud)		# Set pull up/down
 	
 	data=""
