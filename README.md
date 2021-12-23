@@ -30,7 +30,7 @@ Still I found a rise-time of 0.11ms in the signal on the GPIO port. A 560ohm pul
 
 <img src="img3.jpg" xwidth=400/> <img src="img4.jpg" xwidth=400/>
 
-Having figured out this all, the relevant part of Raymarine electrical schema (ST2000+) became immediately clear as well. They have different values for the resistors, but they have a two-transistor amplifier.
+Having figured out this all the hard way, the relevant part of Raymarine electrical schema (ST2000+) became immediately clear as well. The voltage divider here consists of R42 and R43. They have different values for the resistors, but they have a two-transistor amplifier.
 
 <img src="img5.jpg" width=400/>
 
