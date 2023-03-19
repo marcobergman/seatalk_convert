@@ -132,7 +132,7 @@ def translate_st_to_nmea (data):
 			byte6 = getByte(bytes[6])
 			total = (byte2 + byte3*256 + (byte1 // 16)*4096) / 10
 			trip = (byte4 + byte5*256 + (byte6 & ord('\x0f'))*65536) / 100
-			return formatVLW(trip, total)
+			return formatVLW(total, trip)
 		if datagram == ord('\x27'):
 			byte2 = getByte(bytes[2])
 			temp = (byte2 - 100.0)/10
