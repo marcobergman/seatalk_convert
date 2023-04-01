@@ -16,7 +16,7 @@ Seatalk 1 is electrically defined as an open collector interface. Multiple sende
 - that you cannot really draw positive current from the interface; and 
 - that senders typically cannot pull the signal lower than 0.7 volts above ground. 
 
-Putting a optocoupler between the seatalk signal and ground is therefore not a good option, and if it works, it parasitizes on the fact that most outputs and inputs on the one-line bus have some form of pull-up resistors. You might risk serious degradation of the signal, only to manifest itself at awkward times. If you want to go this cheap way, better would it be to put the opto-coupler between the 12V and the seatalk line, thereby inverting the signal, but you can deal with that later.
+Putting a optocoupler between the seatalk signal and ground, as often recommended, is therefore **not** a good option, and if it works, it parasitizes on the fact that most outputs and inputs on the one-line bus have some form of pull-up resistors. You might risk serious degradation of the signal, only to manifest itself at awkward times. If you want to go this cheap way, better would it be to put the opto-coupler between the 12V and the seatalk line, thereby inverting the signal, but you can deal with that later.
 
 <img src="img/img6.jpg" width=400/> <img src="img/img7.jpg" width="400" align="right"/>
 
