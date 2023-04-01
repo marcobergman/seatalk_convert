@@ -3,11 +3,13 @@ Script that reads 9-bits seatalk 1 messages from any GPIO port using bitbanging,
 
 Based on https://github.com/MatsA/seatalk1-to-NMEA0183
 
-Only two NMEA sentences are currently created: VHW and MTW.
+Only a few NMEA sentences are currently created: VHW, HDG, VLW, and MTW.
 
-VHW sentences contain both Speed Through Water, coming from one instrument, and Compass Heading, coming from the other.
+VHW sentences contain only Speed Through Water. HDG contains Compass Heading. VLW sentences contain trip log and total log.
 
 Water temperature MTW sentences are also created because I could, not because I really use it.
+
+`sudo apt-get update && sudo apt-get install pigpio python-pigpio python3-pigpio`
 
 # Processing the Seatalk 1 signal for the Raspberry Pi
 Seatalk 1 is electrically defined as an open collector interface. Multiple senders on the same line are allowed to pull the line low when sending. There is a bit more to it than that, but for reading the signal it is important to realize 2 things:
