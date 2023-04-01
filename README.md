@@ -28,9 +28,13 @@ The key to this problem was to have a voltage divider before the basis of the tr
 
 <img src="img/img2.jpg" width=600/>
 
-Still I found a rise-time of 0.11ms in the signal on the GPIO port. A 560ohm pull-up resistor to 3.3V lowered this rise-time considerably. Remember Raspberry GPIO port levels are 3V3.
+Still I found a rise-time of 0.11ms in the signal on the GPIO port.
 
-<img src="img/img3.jpg" xwidth=400/> <img src="img/img4.jpg" xwidth=400/>
+<img src="img/img3.jpg" xwidth=400/>
+
+A 560ohm pull-up resistor to 3.3V lowered this rise-time considerably. Remember Raspberry GPIO port levels are 3V3.
+ 
+<img src="img/img4.jpg" xwidth=400/>
 
 Having figured out this all the hard way, the relevant part of Raymarine electrical schema (ST2000+) became immediately clear as well. The voltage divider here consists of R42 and R43. They have different values for the resistors, but they have a two-transistor amplifier.
 
