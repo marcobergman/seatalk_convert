@@ -3,9 +3,9 @@ Script that reads 9-bits seatalk 1 messages from any GPIO port using bitbanging,
 
 Based on https://github.com/MatsA/seatalk1-to-NMEA0183
 
-Only two NMEA sentences are currently created: VHW and MTW.
+Only three NMEA sentences are currently created: VHW, MTW, and VLW.
 
-VHW sentences contain both Speed Through Water, coming from one instrument, and Compass Heading, coming from the other.
+VHW sentences contain both Speed Through Water, coming from one instrument, and Compass Heading, coming from the other. VLW sentences contain trip log and total log.
 
 Water temperature MTW sentences are also created because I could, not because I really use it.
 
