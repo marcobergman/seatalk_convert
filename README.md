@@ -9,7 +9,11 @@ VHW sentences contain only Speed Through Water. HDG contains Compass Heading. VL
 
 Water temperature MTW sentences are also created because I could, not because I really use it.
 
-`sudo apt-get update && sudo apt-get install pigpio python-pigpio python3-pigpio`
+Install pigpio as follows:
+
+```
+sudo apt-get update && sudo apt-get install pigpio python-pigpio python3-pigpio
+```
 
 # Processing the Seatalk 1 signal for the Raspberry Pi
 Seatalk 1 is electrically defined as an open collector interface. Multiple senders on the same line are allowed to pull the line low when sending. There is a bit more to it than that, but for reading the signal it is important to realize 2 things:
