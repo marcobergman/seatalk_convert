@@ -15,6 +15,19 @@ Install pigpio as follows:
 sudo apt-get update && sudo apt-get install pigpio python-pigpio python3-pigpio
 ```
 
+or, if that fails, compile from source:
+
+```
+cd
+wget https://github.com/joan2937/pigpio/archive/master.zip
+unzip master.zip
+cd pigpio-master/
+make
+sudo apt install python3-setuptools
+sudo make install
+pigpiod -version
+```
+
 # Processing the Seatalk 1 signal for the Raspberry Pi
 Seatalk 1 is electrically defined as an open collector interface. Multiple senders on the same line are allowed to pull the line low when sending. There is a bit more to it than that, but for reading the signal it is important to realize 2 things:
 - that you cannot really draw positive current from the interface; and 
